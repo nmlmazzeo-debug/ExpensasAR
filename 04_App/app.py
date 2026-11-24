@@ -13,6 +13,11 @@ DATOS = RAIZ / "02_Datos_Procesados"
 INICIO_RECURRENTE = "2025-05"
 FUENTE_IPC = "https://www.indec.gob.ar/ftp/cuadros/economia/serie_ipc_divisiones.csv"
 MESES = "enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre".split()
+TIPOS_GASTOS_UF = (
+    ("reparacion", "Reparaciones", "Reparaciones / trabajos"),
+    ("amenity", "Amenities", "Amenities / reservas"),
+    ("gasto_particular", "Otros", "Otros cargos particulares"),
+)
 
 AZUL = "#233D60"
 VERDE = "#1C786D"
@@ -88,7 +93,7 @@ def proveedor_id(nombre):
 @st.cache_data
 def leer_csv(ruta, version):
     # La fecha de modificación invalida la caché cuando cambia un CSV.
-    return pd.read_csv(ruta, dtype={"mes": str, "pagina_origen": str, "Periodo": str},
+    return pd.read_csv(ruta, dtype={"mes": str, "pagina_origen": str, "pagina_cargo_vinculado": str, "Periodo": str},
                        sep=";" if ruta.name.startswith("ipc_") else ",",
                        decimal="," if ruta.name.startswith("ipc_") else ".")
 
@@ -250,8 +255,11 @@ def resumir_operaciones(mes):
         principal = reparaciones_mes.groupby("unidad_funcional")["importe"].sum().idxmax()
         reparaciones_texto = (
             f"Se registraron {len(reparaciones_mes)} movimientos de reparación vinculados a UF "
-            f"por {millones(reparaciones_mes['importe'].sum())}; el mayor importe por UF correspondió a {principal}. "
+            f"por {millones(reparaciones_mes['importe'].sum())}. "
+            f"El mayor importe registrado se vinculó a {principal.replace('_', ' ')}. "
         )
+        if reparaciones_mes["alcance_importe"].notna().any():
+            reparaciones_texto += "Algunos pagos también incluyen trabajos en otra unidad o en sectores comunes. "
     else:
         reparaciones_texto = "La tabla de unidades carece de reparaciones vinculadas a una UF numérica en este mes. "
     casos = revision["mes"].eq(mes).sum()
@@ -309,6 +317,35 @@ def tabla_monetaria(tabla, columnas):
     for columna in columnas:
         tabla[columna] = tabla[columna].map(lambda valor: dinero(valor, abreviado=False))
     st.dataframe(tabla, hide_index=True, width="stretch")
+
+
+def tabla_gastos_uf(movimientos, *, con_cargo_vinculado=False):
+    campos = {
+        "unidad_funcional": "UF", "portal": "Portal", "piso": "Piso",
+        "departamento": "Departamento", "concepto": "Concepto", "importe": "Importe",
+        "base_registro": "Registro", "proveedor": "Proveedor",
+        "archivo_origen": "Archivo de origen", "pagina_origen": "Página",
+        "seccion_origen": "Sección de origen", "trabajo_id": "Trabajo vinculado",
+    }
+    if movimientos["alcance_importe"].notna().any():
+        campos.update(uf_relacionada="UF relacionada", alcance_importe="Alcance del pago")
+    if con_cargo_vinculado:
+        campos.update(archivo_cargo_vinculado="Archivo del cargo", pagina_cargo_vinculado="Página del cargo")
+    tabla = movimientos[list(campos)].rename(columns=campos)
+    tabla["UF"] = tabla["UF"].str.replace("_", " ", regex=False)
+    tabla["Registro"] = tabla["Registro"].replace({
+        "cargo_uf": "Cargo liquidado a la UF", "pago": "Pago del consorcio",
+        "gasto_informado": "Gasto informado", "pendiente": "Pendiente de pago",
+    })
+    tabla_monetaria(tabla, ["Importe"])
+
+
+def mostrar_pagos_vinculados_uf(pagos):
+    if not pagos.empty:
+        with st.expander("Pagos vinculados a cargos de otro mes"):
+            st.caption("Estos pagos respaldan cargos ya registrados en otra liquidación. "
+                       "Los conteos e importes de esta sección toman el cargo original una sola vez.")
+            tabla_gastos_uf(pagos, con_cargo_vinculado=True)
 
 
 def mostrar_gastos_y_prorrateo(mes, fila):
@@ -670,6 +707,11 @@ try:
     maestro = cargar("proveedores")
     unidades = cargar("unidades")
     padron = cargar("padron_uf")
+    ubicaciones = padron.assign(unidad_funcional="UF_" + padron["uf_comercial"].astype(str))
+    unidades = unidades.merge(
+        ubicaciones[["unidad_funcional", "portal", "piso", "departamento"]],
+        on="unidad_funcional", how="left", validate="many_to_one",
+    )
     controles_prorrateo = cargar("validacion_prorrateo_uf")
     prorrateos = cargar("prorrateo_uf").merge(
         controles_prorrateo.loc[controles_prorrateo["estado"].eq("OK"), ["mes", "codigo_concepto"]],
@@ -692,7 +734,8 @@ rubros, total_por_mes, cambio_rubro, contribucion = calcular_rubros(gastos, resu
 proveedores_mensuales = calcular_proveedores(gastos, maestro, total_por_mes)
 top_5_mes = proveedores_mensuales.groupby("mes", sort=False).head(5)
 comparacion = comparar_ipc(resumen, gastos, ipc)
-reparaciones = unidades[unidades["tipo_movimiento"].eq("reparacion")]
+movimientos_uf = unidades[unidades["archivo_cargo_vinculado"].isna()]
+reparaciones = movimientos_uf[movimientos_uf["tipo_movimiento"].eq("reparacion")]
 
 with st.sidebar:
     st.header("Explorar liquidaciones")
@@ -708,7 +751,7 @@ with st.sidebar:
     st.divider()
     st.markdown(
         "[Caja y rubros](#caja)  \n"
-        "[Proveedores](#gasto) · [Reparaciones por UF](#reparaciones)  \n"
+        "[Proveedores](#gasto) · [Gastos particulares por UF](#reparaciones)  \n"
         "[Lectura del mes](#lectura)"
     )
     st.divider()
@@ -721,6 +764,11 @@ saldo_moroso = morosidad.loc[mes, "saldo_moroso"]
 deuda_anterior = morosidad["saldo_moroso"].shift()
 variacion_morosa = (morosidad["saldo_moroso"].diff().div(deuda_anterior.where(deuda_anterior.gt(0))) * 100).loc[mes]
 uf_activa = uf_seleccion.replace(" ", "_") if uf_seleccion != "Todas las UF" else None
+particulares_mes = movimientos_uf[movimientos_uf["mes"].eq(mes)]
+pagos_vinculados_mes = unidades.loc[unidades["mes"].eq(mes) & unidades["archivo_cargo_vinculado"].notna()]
+if uf_activa:
+    particulares_mes = particulares_mes[particulares_mes["unidad_funcional"].eq(uf_activa)]
+    pagos_vinculados_mes = pagos_vinculados_mes[pagos_vinculados_mes["unidad_funcional"].eq(uf_activa)]
 
 st.title("ExpensasAR")
 st.markdown("Entendé qué pasó con la plata de tu consorcio")
@@ -756,7 +804,25 @@ if uf_activa:
         st.header("Mi UF", anchor="mi-uf")
         st.subheader(f"{uf_seleccion} · Portal {ubicacion['portal']} · {ubicacion['piso']} {ubicacion['departamento']}")
         mostrar_expensa_uf(mes, numero_uf)
-        st.markdown("[Ver reparaciones y gastos particulares de esta UF](#reparaciones)")
+        st.caption("Detalle de movimientos documentados de la unidad. La expensa del período surge del prorrateo publicado.")
+        for tipo, _, titulo in TIPOS_GASTOS_UF:
+            movimientos = particulares_mes[particulares_mes["tipo_movimiento"].eq(tipo)]
+            with st.expander(f"{titulo} ({len(movimientos)})"):
+                if movimientos.empty:
+                    st.caption("Sin movimientos documentados de este tipo en el mes.")
+                else:
+                    if movimientos["alcance_importe"].notna().any():
+                        st.caption("El detalle indica cuándo un pago incluye otra unidad o un sector común. "
+                                   "En esos casos figura el importe completo del pago.")
+                    tabla_gastos_uf(movimientos)
+        vinculadas = reparaciones.loc[
+            reparaciones["mes"].eq(mes) & reparaciones["uf_relacionada"].eq(uf_activa)
+        ]
+        for reparacion in vinculadas.itertuples():
+            principal = reparacion.unidad_funcional.replace("_", " ")
+            st.info(f"Esta unidad figura como afectada en un pago conjunto registrado bajo **{principal}** "
+                    f"({reparacion.archivo_origen}, pág. {reparacion.pagina_origen}).")
+        mostrar_pagos_vinculados_uf(pagos_vinculados_mes)
 
 with st.container(border=True):
     st.header("Qué pasó con la caja", anchor="caja")
@@ -973,66 +1039,28 @@ with st.container(border=True):
 
 
 with st.container(border=True):
-    st.header("Reparaciones por UF", anchor="reparaciones")
-    st.caption("Importes y movimientos que pudieron vincularse con una unidad funcional.")
-    reparaciones_mes = reparaciones[reparaciones["mes"].eq(mes)]
+    st.header("Gastos particulares por UF", anchor="reparaciones")
+    st.caption("Movimientos del mes vinculados a una unidad. Los importes incluyen cargos liquidados y pagos del consorcio, identificados por separado en el detalle.")
+    st.markdown(f"**{len(particulares_mes)} movimientos** vinculados a **{particulares_mes['unidad_funcional'].nunique()} UF**.")
+    if particulares_mes["alcance_importe"].notna().any():
+        st.caption("Algunos pagos también cubren otra unidad o un sector común. Se conserva el importe completo y su alcance.")
+    por_tipo = particulares_mes.groupby("tipo_movimiento").agg(
+        Movimientos=("importe", "size"), UF=("unidad_funcional", "nunique"), Importe=("importe", "sum"),
+    )
+    resumen_uf = por_tipo.reindex([tipo for tipo, _, _ in TIPOS_GASTOS_UF], fill_value=0).reset_index(drop=True)
+    resumen_uf.insert(0, "Tipo", [etiqueta for _, etiqueta, _ in TIPOS_GASTOS_UF])
+    tabla_monetaria(resumen_uf, ["Importe"])
     if uf_activa:
-        ubicacion = padron.loc[padron["uf_comercial"].eq(int(uf_activa.removeprefix("UF_")))].iloc[0]
-        st.subheader(f"{uf_seleccion} · Portal {ubicacion['portal']} · {ubicacion['piso']} {ubicacion['departamento']}")
-        st.caption("El filtro muestra los registros de esta unidad. La expensa del período y el prorrateo están en Mi UF.")
-        vinculadas = reparaciones_mes[reparaciones_mes["uf_relacionada"].eq(uf_activa)]
-        for reparacion in vinculadas.itertuples():
-            principal = reparacion.unidad_funcional.replace("_", " ")
-            st.info(f"Esta unidad figura como afectada en una reparación vinculada a **{principal}** "
-                    f"({reparacion.archivo_origen}, pág. {reparacion.pagina_origen}). "
-                    "El documento informa un pago conjunto.")
-        reparaciones_mes = reparaciones_mes[reparaciones_mes["unidad_funcional"].eq(uf_activa)]
-    if reparaciones_mes.empty:
-        st.write("Sin reparaciones como UF principal para esta unidad en el mes." if uf_activa
-                 else "No se identificaron reparaciones vinculadas a una UF numérica en esta liquidación.")
+        st.markdown("[Ver el detalle de esta unidad en Mi UF](#mi-uf)")
     else:
-        st.markdown(f"**{len(reparaciones_mes)} movimientos** vinculados a **{reparaciones_mes['unidad_funcional'].nunique()} UF**.")
-        compartidos = reparaciones_mes["alcance_importe"].notna().sum()
-        columnas = st.columns(3)
-        columnas[0].metric("UF con reparaciones", reparaciones_mes["unidad_funcional"].nunique())
-        if uf_activa and compartidos:
-            columnas[1].metric("Pagos con importe compartido", compartidos)
-        else:
-            columnas[1].metric("Importe de los pagos vinculados", dinero(reparaciones_mes["importe"].sum()))
-        columnas[2].metric("Movimientos", len(reparaciones_mes))
-        if compartidos:
-            st.caption("Algunos pagos también cubren trabajos en otra unidad o sectores comunes. El detalle conserva el importe completo del pago y su alcance.")
-        campos = ["unidad_funcional", "proveedor", "concepto", "importe", "trabajo_id", "pagina_origen"]
-        if compartidos:
-            campos += ["uf_relacionada", "alcance_importe"]
-        tabla = reparaciones_mes[campos].rename(columns={
-            "unidad_funcional": "UF principal", "proveedor": "Proveedor", "concepto": "Concepto",
-            "importe": "Importe del pago", "trabajo_id": "Trabajo vinculado", "pagina_origen": "Página",
-            "uf_relacionada": "UF relacionada", "alcance_importe": "Alcance del pago",
-        })
-        with st.expander("Ver reparaciones del mes", expanded=bool(uf_activa)):
-            st.caption("Los pagos se muestran por separado. Si la liquidación permite vincularlos al mismo trabajo, comparten identificador.")
-            tabla_monetaria(tabla, ["Importe del pago"])
-    if uf_activa:
-        eventos = unidades.loc[
-            unidades["mes"].eq(mes) & unidades["unidad_funcional"].eq(uf_activa)
-            & unidades["tipo_movimiento"].ne("reparacion")
-        ]
-        for titulo, tipos in (
-            ("Gastos particulares", ["gasto_particular", "amenity"]),
-            ("Otros registros de la UF", ["otro"]),
-        ):
-            filtrados = eventos[eventos["tipo_movimiento"].isin(tipos)]
-            if filtrados.empty:
-                continue
+        for tipo, titulo, _ in TIPOS_GASTOS_UF:
+            movimientos = particulares_mes[particulares_mes["tipo_movimiento"].eq(tipo)]
             with st.expander(titulo):
-                tabla = filtrados[["tipo_movimiento", "concepto", "importe", "pagina_origen"]].rename(columns={
-                    "tipo_movimiento": "Tipo", "concepto": "Concepto", "importe": "Importe",
-                    "pagina_origen": "Página",
-                })
-                tabla["Tipo"] = tabla["Tipo"].str.replace("_", " ").str.capitalize()
-                tabla_monetaria(tabla, ["Importe"])
-    else:
+                if movimientos.empty:
+                    st.caption("Sin movimientos documentados de este tipo en el mes.")
+                else:
+                    tabla_gastos_uf(movimientos)
+        mostrar_pagos_vinculados_uf(pagos_vinculados_mes)
         ambiguas = auditoria_uf.loc[auditoria_uf["mes"].eq(mes) & auditoria_uf["estado"].eq("unidad probable pero ambigua")]
         if not ambiguas.empty:
             with st.expander(f"Ver referencias ambiguas ({len(ambiguas)})"):
@@ -1093,10 +1121,3 @@ if avanzado:
             tabla["Participación"] = tabla["Participación"].map(porcentaje)
             tabla_monetaria(tabla, ["Importe"])
 
-        with st.expander("Amenities del mes"):
-            amenities = unidades[unidades["mes"].eq(mes) & unidades["tipo_movimiento"].eq("amenity")]
-            st.write(f"{len(amenities)} cargos. Importe total · {dinero(amenities['importe'].sum(), abreviado=False)}.")
-            tabla = amenities[["unidad_funcional", "concepto", "importe"]].rename(columns={
-                "unidad_funcional": "UF", "concepto": "Concepto", "importe": "Importe",
-            })
-            tabla_monetaria(tabla, ["Importe"])
