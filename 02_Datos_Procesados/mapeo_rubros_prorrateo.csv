@@ -1,0 +1,233 @@
+﻿mes,rubro,codigo_concepto,criterio,importe_consorcio
+2025-03,ARBA,ARBA,Columna de gasto publicada,145292.5
+2025-03,Abonos y servicios,ORD,Columna de gasto publicada,5430350.19
+2025-03,Administración,ORD,Columna de gasto publicada,2482300.0
+2025-03,GASTOS DE LIMPIEZA,ORD,Columna de gasto publicada,187318.89
+2025-03,Gastos bancarios,ORD,Columna de gasto publicada,757325.97
+2025-03,Impuesto municipal,MUN,Columna de gasto publicada,3713500.0
+2025-03,Mantenimiento de partes comunes,ORD,Columna de gasto publicada,126000.0
+2025-03,Mantenimiento de partes comunes,TECHOS,Columna de gasto publicada,10332000.0
+2025-03,Reparaciones en unidades,ORD,Columna de gasto publicada,2210000.0
+2025-03,Seguridad,ORD,Columna de gasto publicada,18090627.84
+2025-03,Seguros,ORD,Columna de gasto publicada,7698.0
+2025-03,Servicios públicos,ORD,Columna de gasto publicada,3918671.95
+2025-03,VARIOS,ORD,Columna de gasto publicada,37400.0
+2025-04,Abonos y servicios,ORD,Columna de gasto publicada,5682165.43
+2025-04,Administración,ORD,Columna de gasto publicada,1403000.0
+2025-04,GASTOS DE LIMPIEZA,ORD,Columna de gasto publicada,27885.66
+2025-04,Gastos bancarios,ORD,Columna de gasto publicada,691551.28
+2025-04,Impuesto municipal,MUN,Columna de gasto publicada,3342100.0
+2025-04,LEGALES,ORD,Columna de gasto publicada,930000.0
+2025-04,Mantenimiento de partes comunes,TECHOS,Columna de gasto publicada,5350000.0
+2025-04,Reparaciones en unidades,ORD,Columna de gasto publicada,1190000.0
+2025-04,Seguridad,ORD,Columna de gasto publicada,36108064.80
+2025-04,Seguros,ORD,Columna de gasto publicada,779462.42
+2025-04,Servicios públicos,ORD,Columna de gasto publicada,3626820.73
+2025-04,VARIOS,ORD,Columna de gasto publicada,98800.0
+2025-05,ARBA,D,Concepto ARBA publicado,245933.7
+2025-05,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,3111500.26
+2025-05,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,730600.0
+2025-05,GASTOS GENERALES,A,Rubro de funcionamiento asociado a expensa ordinaria,100100.0
+2025-05,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,1057762.08
+2025-05,Impuesto municipal,C,Concepto municipal publicado,3475900.0
+2025-05,Mantenimiento de partes comunes,A,Rubro de funcionamiento asociado a expensa ordinaria,179080.0
+2025-05,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,17620167.43
+2025-05,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,779462.0
+2025-05,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,3689171.94
+2025-06,ARBA,D,Concepto ARBA publicado,267332.1
+2025-06,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,10093537.20
+2025-06,Administración,A,Rubro de funcionamiento asociado a expensa ordinaria,1594185.0
+2025-06,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,6055380.63
+2025-06,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,1240000.0
+2025-06,GASTOS DE LIMPIEZA,A,Rubro de funcionamiento asociado a expensa ordinaria,25000.0
+2025-06,GASTOS GENERALES,A,Rubro de funcionamiento asociado a expensa ordinaria,2022365.73
+2025-06,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,1036779.99
+2025-06,Impuesto municipal,C,Concepto municipal publicado,3475900.0
+2025-06,RED CLOACAL,,Sin correspondencia documental con un concepto de prorrateo,713500.0
+2025-06,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,18445962.01
+2025-06,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,778553.68
+2025-06,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,4601424.62
+2025-07,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,4778010.84
+2025-07,Administración,A,Rubro de funcionamiento asociado a expensa ordinaria,1594185.0
+2025-07,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,8785323.02
+2025-07,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,1240000.0
+2025-07,GASTOS GENERALES,A,Rubro de funcionamiento asociado a expensa ordinaria,496532.65
+2025-07,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,588434.71
+2025-07,Impuesto municipal,C,Concepto municipal publicado,3614900.0
+2025-07,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,19096981.29
+2025-07,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,829952.03
+2025-07,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,4371483.40
+2025-08,APORTES Y CONTRIBUCIONES,A,Rubro de funcionamiento asociado a expensa ordinaria,574857.44
+2025-08,ARBA,D,Concepto ARBA publicado,244665.7
+2025-08,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,4588329.86
+2025-08,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,1779311.0
+2025-08,CAJA CHICA INTENDENCIA,A,Rubro de funcionamiento asociado a expensa ordinaria,100648.0
+2025-08,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,15097942.01
+2025-08,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,1240000.0
+2025-08,GASTOS GENERALES,A,Rubro de funcionamiento asociado a expensa ordinaria,271433.5
+2025-08,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,820246.12
+2025-08,Impuesto municipal,C,Concepto municipal publicado,3614900.0
+2025-08,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,1100000.0
+2025-08,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,22888031.83
+2025-08,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,822288.0
+2025-08,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,5447801.36
+2025-09,APORTES Y CONTRIBUCIONES,A,Rubro de funcionamiento asociado a expensa ordinaria,2656708.67
+2025-09,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,4088842.12
+2025-09,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,1644311.0
+2025-09,CAJA CHICA INTENDENCIA,A,Rubro de funcionamiento asociado a expensa ordinaria,62481.0
+2025-09,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,30606939.0
+2025-09,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,1270000.0
+2025-09,GASTOS EXTRAORDINARIOS,,Sin correspondencia documental con un concepto de prorrateo,3288132.0
+2025-09,GASTOS GENERALES,A,Rubro de funcionamiento asociado a expensa ordinaria,863997.32
+2025-09,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,835387.86
+2025-09,Impuesto municipal,C,Concepto municipal publicado,3687200.0
+2025-09,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,1141917.0
+2025-09,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,20908498.08
+2025-09,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,829945.1
+2025-09,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,6982582.84
+2025-10,APORTES Y CONTRIBUCIONES,A,Rubro de funcionamiento asociado a expensa ordinaria,708803.64
+2025-10,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,5277438.32
+2025-10,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,1830601.0
+2025-10,CAJA CHICA INTENDENCIA,A,Rubro de funcionamiento asociado a expensa ordinaria,97610.03
+2025-10,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,20383176.45
+2025-10,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,1290000.0
+2025-10,GASTOS GENERALES,A,Rubro de funcionamiento asociado a expensa ordinaria,68837.6
+2025-10,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,717725.59
+2025-10,Impuesto municipal,C,Concepto municipal publicado,3687200.0
+2025-10,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,1207819.0
+2025-10,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,20414116.80
+2025-10,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,837602.2
+2025-10,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,3992852.16
+2025-11,APORTES Y CONTRIBUCIONES,A,Rubro de funcionamiento asociado a expensa ordinaria,720502.53
+2025-11,ARBA,D,Concepto ARBA publicado,592032.1
+2025-11,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,5134036.73
+2025-11,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,1960325.0
+2025-11,CAJA CHICA INTENDENCIA,A,Rubro de funcionamiento asociado a expensa ordinaria,31200.0
+2025-11,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,26908843.61
+2025-11,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,3429952.0
+2025-11,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,754566.15
+2025-11,Impuesto municipal,C,Concepto municipal publicado,3131800.0
+2025-11,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,1287688.0
+2025-11,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,21691558.08
+2025-11,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,822288.0
+2025-11,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,3652334.93
+2025-12,APORTES Y CONTRIBUCIONES,A,Rubro de funcionamiento asociado a expensa ordinaria,731703.74
+2025-12,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,4171155.32
+2025-12,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,1917639.0
+2025-12,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,2371941.01
+2025-12,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,3497782.0
+2025-12,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,627918.61
+2025-12,Impuesto municipal,C,Concepto municipal publicado,3131800.0
+2025-12,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,2042593.0
+2025-12,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,18987030.84
+2025-12,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,822288.0
+2025-12,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,7399727.89
+2026-01,APORTES Y CONTRIBUCIONES,A,Rubro de funcionamiento asociado a expensa ordinaria,1400182.12
+2026-01,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,6495084.27
+2026-01,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,1783336.0
+2026-01,CAJA CHICA INTENDENCIA,A,Rubro de funcionamiento asociado a expensa ordinaria,154340.0
+2026-01,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,17575363.25
+2026-01,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,3354284.5
+2026-01,GASTOS ORDINARIOS NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,1277760.0
+2026-01,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,793473.45
+2026-01,Impuesto municipal,C,Concepto municipal publicado,4141400.0
+2026-01,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,1981508.61
+2026-01,RED CLOACAL,,Sin correspondencia documental con un concepto de prorrateo,406560.0
+2026-01,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,24428373.96
+2026-01,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,822288.0
+2026-01,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,5847600.72
+2026-02,APORTES Y CONTRIBUCIONES,A,Rubro de funcionamiento asociado a expensa ordinaria,1434187.53
+2026-02,ARBA,D,Concepto ARBA publicado,315647.9
+2026-02,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,4608579.89
+2026-02,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,2424135.0
+2026-02,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,10462961.02
+2026-02,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,728279.41
+2026-02,Impuesto municipal,C,Concepto municipal publicado,4141400.0
+2026-02,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,3176975.0
+2026-02,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,22665141.60
+2026-02,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,822288.0
+2026-02,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,5797119.59
+2026-03,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,5975237.38
+2026-03,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,2190633.0
+2026-03,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,5424713.0
+2026-03,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,6432781.26
+2026-03,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,722643.52
+2026-03,Impuesto municipal,C,Concepto municipal publicado,4373400.0
+2026-03,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,2875193.21
+2026-03,RED CLOACAL,,Sin correspondencia documental con un concepto de prorrateo,668000.0
+2026-03,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,20793144.96
+2026-03,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,822288.0
+2026-03,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,6003160.60
+2026-04,ARBA,D,Concepto ARBA publicado,332773.2
+2026-04,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,5451430.29
+2026-04,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,2354767.0
+2026-04,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,3305200.0
+2026-04,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,3484851.41
+2026-04,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,689600.84
+2026-04,Impuesto municipal,C,Concepto municipal publicado,4373400.0
+2026-04,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,2234524.59
+2026-04,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,23152208.64
+2026-04,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,822288.0
+2026-04,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,5876247.92
+2026-05,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,5515180.09
+2026-05,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,2141997.0
+2026-05,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,2193920.55
+2026-05,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,631507.31
+2026-05,Impuesto municipal,C,Concepto municipal publicado,4635800.0
+2026-05,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,564865.16
+2026-05,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,22629412.80
+2026-05,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,5983002.67
+2026-06,ARBA,D,Concepto ARBA publicado,351346.2
+2026-06,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,5718073.6
+2026-06,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,4219974.0
+2026-06,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,3310263.41
+2026-06,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,6819563.0
+2026-06,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,702029.8
+2026-06,Impuesto municipal,C,Concepto municipal publicado,4635800.0
+2026-06,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,5279155.76
+2026-06,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,23690046.24
+2026-06,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,7053121.90
+2026-07,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,5818616.35
+2026-07,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,2550487.0
+2026-07,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,8056100.0
+2026-07,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,3440269.0
+2026-07,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,686148.6
+2026-07,Impuesto municipal,C,Concepto municipal publicado,4872200.0
+2026-07,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,4385276.59
+2026-07,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,23794747.20
+2026-07,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,1031427.23
+2026-07,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,7282313.88
+2026-08,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,6796495.54
+2026-08,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,196600.0
+2026-08,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,13995090.01
+2026-08,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,3440269.0
+2026-08,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,760571.38
+2026-08,Impuesto municipal,C,Concepto municipal publicado,4872200.0
+2026-08,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,1767228.99
+2026-08,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,25517325.12
+2026-08,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,1031418.0
+2026-08,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,8461916.59
+2026-09,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,6928187.16
+2026-09,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,2392687.0
+2026-09,CAJA CHICA INTENDENCIA,A,Rubro de funcionamiento asociado a expensa ordinaria,129464.67
+2026-09,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,10624842.0
+2026-09,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,3654417.18
+2026-09,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,801013.43
+2026-09,Impuesto municipal,C,Concepto municipal publicado,5076800.0
+2026-09,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,5166776.33
+2026-09,RED CLOACAL,,Sin correspondencia documental con un concepto de prorrateo,95000.0
+2026-09,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,26086366.08
+2026-09,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,779637.83
+2026-09,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,8818096.19
+2026-10,ARBA,,La liquidación del mes carece del concepto de prorrateo correspondiente,379590.7
+2026-10,Abonos y servicios,A,Rubro de funcionamiento asociado a expensa ordinaria,6658355.53
+2026-10,Administración / Honorarios,A,Rubro de funcionamiento asociado a expensa ordinaria,2673523.0
+2026-10,EGRESOS EXTRAORDINARIOS Y NO RECURRENTES,,Sin correspondencia documental con un concepto de prorrateo,17330315.75
+2026-10,ESPACIOS VERDES,A,Rubro de funcionamiento asociado a expensa ordinaria,3654417.18
+2026-10,Gastos bancarios,A,Rubro de funcionamiento asociado a expensa ordinaria,806524.77
+2026-10,Impuesto municipal,C,Concepto municipal publicado,5076800.0
+2026-10,PERSONAL,A,Rubro de funcionamiento asociado a expensa ordinaria,2505560.91
+2026-10,RED CLOACAL,A,Limpieza de cámaras cloacales comunes documentada,215000.0
+2026-10,Seguridad,A,Rubro de funcionamiento asociado a expensa ordinaria,25921425.60
+2026-10,Seguros,A,Rubro de funcionamiento asociado a expensa ordinaria,779638.2
+2026-10,Servicios públicos,A,Rubro de funcionamiento asociado a expensa ordinaria,8265199.59
