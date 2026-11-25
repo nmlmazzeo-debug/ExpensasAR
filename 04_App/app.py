@@ -93,7 +93,8 @@ def proveedor_id(nombre):
 @st.cache_data
 def leer_csv(ruta, version):
     # La fecha de modificación invalida la caché cuando cambia un CSV.
-    return pd.read_csv(ruta, dtype={"mes": str, "pagina_origen": str, "pagina_cargo_vinculado": str, "Periodo": str},
+    tipos = dict.fromkeys(("mes", "pagina_origen", "pagina_cargo_vinculado", "pagina_plan_de_pagos", "Periodo"), str)
+    return pd.read_csv(ruta, dtype=tipos,
                        sep=";" if ruta.name.startswith("ipc_") else ",",
                        decimal="," if ruta.name.startswith("ipc_") else ".")
 
@@ -435,7 +436,7 @@ def desglosar_ordinaria(mapeo_mes, codigo, importe_uf, total_concepto):
 
 
 def mostrar_expensa_uf(mes, uf):
-    periodos = expensa_uf.loc[expensa_uf["uf"].eq(uf)].set_index("mes")
+    periodos = liquidaciones_uf.loc[liquidaciones_uf["uf"].eq(uf)].set_index("mes")
     if mes not in periodos.index:
         st.info("La liquidación seleccionada no tiene un total del período verificable para esta UF.")
         return
@@ -444,26 +445,63 @@ def mostrar_expensa_uf(mes, uf):
     variacion = None
     if anterior in periodos.index:
         previo = periodos.loc[anterior]
-        if previo["expensa_periodo"] > 0 and previo["fuente_total"] == periodo["fuente_total"]:
-            variacion = (periodo["expensa_periodo"] / previo["expensa_periodo"] - 1) * 100
+        formato_anterior = previo["concepto_total_publicado"] == "TOTAL"
+        formato_actual = periodo["concepto_total_publicado"] == "TOTAL"
+        if previo["expensa_prorrateada"] > 0 and formato_anterior == formato_actual:
+            variacion = (periodo["expensa_prorrateada"] / previo["expensa_prorrateada"] - 1) * 100
     conceptos = prorrateos.loc[prorrateos["mes"].eq(mes) & prorrateos["uf"].eq(uf)]
     ordinario = conceptos.loc[conceptos["codigo_concepto"].isin(["A", "ORD"])]
-    columnas = st.columns(3)
-    columnas[0].metric("Expensa del período", dinero(periodo["expensa_periodo"], abreviado=False))
-    columnas[1].metric("Variación mensual", porcentaje(variacion, con_signo=True) if variacion is not None else "Sin comparación")
-    columnas[2].metric(
+    redondeo = periodo["redondeo"]
+    if pd.isna(redondeo):
+        ajuste = "Sin ajuste publicado"
+    else:
+        signo = "+" if redondeo > 0 else ("−" if redondeo < 0 else "")
+        ajuste = signo + dinero(abs(redondeo), abreviado=False)
+    with st.container(border=True):
+        st.subheader("Tu liquidación")
+        mostrar_texto(f"Expensa prorrateada · {dinero(periodo['expensa_prorrateada'], abreviado=False)}")
+        mostrar_texto(f"Gastos particulares · {dinero(periodo['gastos_particulares'], abreviado=False)}")
+        mostrar_texto(f"Redondeo · {ajuste}")
+        st.metric("Total liquidado del período", dinero(periodo["total_reconstruido"], abreviado=False))
+        st.caption(f"{periodo['archivo_origen']}, pág. {periodo['pagina_origen']} · "
+                   f"Columna de referencia: {periodo['concepto_total_publicado']}.")
+        diferencia = periodo["diferencia_publicado_menos_reconstruido"]
+        if diferencia:
+            mostrar_texto(f"**Importe a pagar publicado · {dinero(periodo['total_publicado'], abreviado=False)}**")
+            with st.expander("Ver diferencia con el importe a pagar publicado"):
+                mostrar_texto(f"Diferencia (publicado menos total del período) · {dinero(diferencia, abreviado=False)}")
+                for campo, nombre in (
+                    ("deuda_publicada", "Deuda o saldo a favor"),
+                    ("interes_publicado", "Intereses"),
+                    ("plan_de_pagos", "Plan de pagos"),
+                ):
+                    if pd.notna(periodo[campo]) and periodo[campo]:
+                        mostrar_texto(f"{nombre} · {dinero(periodo[campo], abreviado=False)}")
+                if pd.notna(periodo["pagina_plan_de_pagos"]):
+                    st.caption(f"El plan figura en el detalle de {periodo['archivo_origen']}, "
+                               f"pág. {periodo['pagina_plan_de_pagos']}.")
+                if periodo["diferencia_tras_otros_conceptos"]:
+                    mostrar_texto("Diferencia que queda por conciliar · "
+                                  + dinero(periodo["diferencia_tras_otros_conceptos"], abreviado=False))
+        else:
+            st.caption("La suma coincide al centavo con el importe publicado.")
+
+    columnas = st.columns(2)
+    columnas[0].metric("Variación mensual del prorrateo", porcentaje(variacion, con_signo=True) if variacion is not None else "Sin comparación")
+    columnas[1].metric(
         "Incidencia ordinaria publicada",
         f"{numero(ordinario.iloc[0]['porcentaje_incidencia'], 2)} %" if len(ordinario) else "Sin dato",
     )
-    st.caption(f"{periodo['fuente_total']} · {periodo['archivo_origen']}, pág. {periodo['pagina_origen']}.")
-    st.caption("La expensa del período reúne los cargos prorrateados del mes. La deuda anterior, los intereses, los créditos o débitos y los gastos particulares se tratan aparte.")
 
+    st.subheader("Desglose del prorrateo")
     mapeo_mes = mapeo_prorrateo[mapeo_prorrateo["mes"].eq(mes)]
     if not ordinario.empty:
         fila_ordinaria = ordinario.iloc[0]
         codigo = fila_ordinaria["codigo_concepto"]
         importe = fila_ordinaria["importe_asignado"]
-        st.subheader(f"Expensa ordinaria · {dinero(importe, abreviado=False)}".replace("$", r"\$"))
+        mostrar_texto(f"**Expensa ordinaria · {dinero(importe, abreviado=False)}**")
+        st.caption(f"{codigo} · {fila_ordinaria['concepto_publicado']} · "
+                   f"{fila_ordinaria['archivo_origen']}, pág. {fila_ordinaria['pagina_origen']}.")
         total = controles_prorrateo.loc[
             controles_prorrateo["mes"].eq(mes) & controles_prorrateo["codigo_concepto"].eq(codigo)
             & controles_prorrateo["estado"].eq("OK"), "total_pdf",
@@ -482,14 +520,13 @@ def mostrar_expensa_uf(mes, uf):
 
     otros = conceptos.loc[~conceptos["codigo_concepto"].isin(["A", "ORD"])]
     if not otros.empty:
-        st.markdown("**Otros componentes de la expensa del período**")
+        st.markdown("**Otros conceptos prorrateados**")
         conceptos_pdf = otros.rename(columns={
             "codigo_concepto": "Columna", "concepto_publicado": "Concepto publicado",
-            "importe_asignado": "Importe liquidado", "pagina_origen": "Página",
+            "importe_asignado": "Importe liquidado", "archivo_origen": "Archivo de origen", "pagina_origen": "Página",
         })
-        tabla_monetaria(conceptos_pdf[["Columna", "Importe liquidado", "Concepto publicado", "Página"]],
+        tabla_monetaria(conceptos_pdf[["Columna", "Importe liquidado", "Concepto publicado", "Archivo de origen", "Página"]],
                         ["Importe liquidado"])
-    mostrar_texto(f"**Total expensa del período · {dinero(periodo['expensa_periodo'], abreviado=False)}**")
 
     sin_asignar = mapeo_mes.loc[~mapeo_mes["codigo_concepto"].isin(conceptos["codigo_concepto"])]
     if not sin_asignar.empty:
@@ -717,7 +754,7 @@ try:
         controles_prorrateo.loc[controles_prorrateo["estado"].eq("OK"), ["mes", "codigo_concepto"]],
         on=["mes", "codigo_concepto"], how="inner", validate="many_to_one",
     )
-    expensa_uf = cargar("expensa_periodo_uf")
+    liquidaciones_uf = cargar("liquidacion_uf")
     mapeo_prorrateo = cargar("mapeo_rubros_prorrateo")
     auditoria_uf = cargar("revision_reparaciones_uf")
     cascadas = cargar("caja_cascada").set_index("mes")
@@ -804,17 +841,22 @@ if uf_activa:
         st.header("Mi UF", anchor="mi-uf")
         st.subheader(f"{uf_seleccion} · Portal {ubicacion['portal']} · {ubicacion['piso']} {ubicacion['departamento']}")
         mostrar_expensa_uf(mes, numero_uf)
-        st.caption("Detalle de movimientos documentados de la unidad. La expensa del período surge del prorrateo publicado.")
+        st.subheader("Desglose de gastos particulares")
+        st.caption("Estos cargos fueron liquidados a la unidad y forman parte del subtotal de gastos particulares.")
+        cargos_uf = particulares_mes[particulares_mes["base_registro"].eq("cargo_uf")]
         for tipo, _, titulo in TIPOS_GASTOS_UF:
-            movimientos = particulares_mes[particulares_mes["tipo_movimiento"].eq(tipo)]
-            with st.expander(f"{titulo} ({len(movimientos)})"):
-                if movimientos.empty:
-                    st.caption("Sin movimientos documentados de este tipo en el mes.")
+            cargos_tipo = cargos_uf[cargos_uf["tipo_movimiento"].eq(tipo)]
+            with st.expander(f"{titulo} ({len(cargos_tipo)})"):
+                if cargos_tipo.empty:
+                    st.caption("Sin cargos liquidados de este tipo en el mes.")
                 else:
-                    if movimientos["alcance_importe"].notna().any():
-                        st.caption("El detalle indica cuándo un pago incluye otra unidad o un sector común. "
-                                   "En esos casos figura el importe completo del pago.")
-                    tabla_gastos_uf(movimientos)
+                    tabla_gastos_uf(cargos_tipo)
+        pagos_uf = particulares_mes[particulares_mes["base_registro"].eq("pago")]
+        if not pagos_uf.empty:
+            with st.expander("Pagos del consorcio vinculados a esta UF"):
+                st.caption("Se muestran como referencia. Si el importe incluye otra unidad o un sector común, "
+                           "el detalle indica el alcance del pago.")
+                tabla_gastos_uf(pagos_uf)
         vinculadas = reparaciones.loc[
             reparaciones["mes"].eq(mes) & reparaciones["uf_relacionada"].eq(uf_activa)
         ]
